@@ -1,0 +1,79 @@
+# TaskBoard Pro — reglas del proyecto
+
+Aplica estas convenciones en todo el código del tablero (HTML, JS y estilos).
+
+## JavaScript moderno (ES6+)
+
+- Usa `const` y `let`. Nunca `var`.
+- Prefiere funciones con nombre, arrow functions para callbacks cortos, template literals y `const` para IDs de DOM.
+- Usa `crypto.randomUUID()` para IDs de tareas. No uses contadores globales.
+- Evita `innerHTML` con datos crudos: pasa textos por `escapeHtml()` antes de interpolar.
+- No uses `eval`, `with`, ni APIs obsoletas (`document.write`, `escape`, `substr`).
+- Mantén el estado de tareas en funciones `loadTasks` / `saveTasks`. No dupliques lecturas de `localStorage` en cada handler si ya existe esa API.
+
+```javascript
+// ❌ MAL
+var tasks = JSON.parse(localStorage.getItem("tasks"));
+
+// ✅ BIEN
+const tasks = loadTasks();
+const updated = tasks.map((task) =>
+  task.id === id ? { ...task, status: nextStatus } : task
+);
+saveTasks(updated);
+```
+
+## Estilos: solo Tailwind CSS
+
+- Estiliza UI con clases de Tailwind en `index.html` y en el HTML generado en JS.
+- No añadas CSS nuevo en `styles.css` salvo reset mínimo, `list-style` o estados que Tailwind no cubra (p. ej. drag-and-drop).
+- No uses estilos inline (`style=""`), Bootstrap, ni otras librerías de CSS.
+- Colores y espaciado coherentes con el tablero actual: `slate`, `blue`, `red` para peligro.
+
+```html
+<!-- ❌ MAL -->
+<div style="background:#eee;padding:16px" class="column">
+
+<!-- ✅ BIEN -->
+<section class="rounded-xl bg-slate-200/80 p-4 min-h-[16rem]">
+```
+
+## Documentación de funciones (español)
+
+- Documenta funciones públicas o no triviales con JSDoc en español: qué hace, `@param` y `@returns` cuando aplique.
+- Nombra funciones y variables en inglés (`createTaskCard`, `saveTasks`). El comentario va en español.
+- No documentes getters de DOM ni handlers de una sola línea.
+
+```javascript
+/**
+ * Crea el elemento de tarjeta para una tarea, con acciones de editar y eliminar.
+ * @param {{ id: string, title: string, description?: string, status: string }} task
+ * @returns {HTMLLIElement}
+ */
+function createTaskCard(task) {}
+```
+
+## localStorage limpio
+
+- Una sola clave: `STORAGE_KEY` (`taskboard-ai-tasks`). No inventes otras claves.
+- Persistir siempre un array JSON de tareas `{ id, title, description, status }`.
+- `loadTasks()` debe: leer, parsear con `try/catch`, validar que sea un array, y si falla o está vacío usar `SAMPLE_TASKS` y reescribir el storage.
+- `saveTasks(tasks)` solo serializa y guarda. Quien muta el array llama después a `saveTasks` y `renderTasks()`.
+- No guardes DOM, funciones ni objetos no serializables. No leas `localStorage` en bucles de render.
+- Tras crear, editar, eliminar o cambiar `status` (drag and drop), actualiza el array y llama a `saveTasks()`.
+
+```javascript
+// ❌ MAL
+localStorage.setItem("task", card.outerHTML);
+
+// ✅ BIEN
+function saveTasks(tasks) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+}
+```
+
+## Alcance del tablero
+
+- Columnas y `status`: `todo` (Pendiente), `doing` (En Proceso), `done` (Completado).
+- Conserva drag and drop, modal de alta/edición y botones de editar/eliminar en cada tarjeta.
+- UI y textos visibles al usuario en español.

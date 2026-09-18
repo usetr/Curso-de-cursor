@@ -1,0 +1,39 @@
+{
+  "guidelines": {
+    "source": "Playbook externo del equipo (simulado)",
+    "title": {
+      "maxWords": 8,
+      "style": "Verbo en infinitivo + objeto claro",
+      "examples": [
+        "Diseñar el tablero Kanban",
+        "Corregir el arrastre entre columnas"
+      ]
+    },
+    "description": {
+      "mustInclude": ["objetivo", "criterio de hecho"],
+      "tone": "Español, frases cortas, sin jerga innecesaria"
+    },
+    "status": {
+      "todo": "Aún no se empezó",
+      "doing": "Alguien la está trabajando ahora",
+      "done": "Cumple el criterio de hecho"
+    }
+  },
+  "templates": {
+    "bug": {
+      "title": "Corregir [síntoma visible]",
+      "description": "Qué falla, cómo reproducirlo y cuándo se considera resuelto.",
+      "status": "todo"
+    },
+    "feature": {
+      "title": "Añadir [capacidad nueva]",
+      "description": "Para quién es, qué debe poder hacer y cómo se verifica.",
+      "status": "todo"
+    },
+    "chore": {
+      "title": "Actualizar [área técnica]",
+      "description": "Qué se mantiene, por qué ahora y qué no debe romperse.",
+      "status": "todo"
+    }
+  }
+}

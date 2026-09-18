@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TaskBoard Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="min-h-screen bg-slate-100 text-slate-800">
+    <header class="flex items-center justify-between bg-white px-6 py-4 shadow-sm">
+      <h1 class="text-xl font-semibold text-slate-900">TaskBoard Pro</h1>
+      <button
+        type="button"
+        id="new-task-btn"
+        class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+      >
+        + Nueva Tarea
+      </button>
+    </header>
+
+    <main class="grid grid-cols-1 gap-4 p-6 md:grid-cols-3">
+      <section data-status="todo" class="drop-column rounded-xl bg-slate-200/80 p-4 min-h-[16rem]">
+        <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-600">
+          Pendiente
+        </h2>
+        <ul id="todo-list" class="task-list min-h-[12rem] space-y-3"></ul>
+      </section>
+
+      <section data-status="doing" class="drop-column rounded-xl bg-slate-200/80 p-4 min-h-[16rem]">
+        <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-600">
+          En Proceso
+        </h2>
+        <ul id="doing-list" class="task-list min-h-[12rem] space-y-3"></ul>
+      </section>
+
+      <section data-status="done" class="drop-column rounded-xl bg-slate-200/80 p-4 min-h-[16rem]">
+        <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-600">
+          Completado
+        </h2>
+        <ul id="done-list" class="task-list min-h-[12rem] space-y-3"></ul>
+      </section>
+    </main>
+
+    <div
+      id="task-modal"
+      class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/50 p-4"
+      aria-hidden="true"
+    >
+      <div class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
+        <h2 id="task-modal-title" class="mb-4 text-lg font-semibold text-slate-900">
+          Nueva tarea
+        </h2>
+        <form id="task-form" class="space-y-4">
+          <input type="hidden" id="task-id" name="id" />
+          <div>
+            <label for="task-title" class="mb-1 block text-sm font-medium">Título</label>
+            <input
+              id="task-title"
+              name="title"
+              type="text"
+              required
+              class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+            />
+          </div>
+          <div>
+            <label for="task-description" class="mb-1 block text-sm font-medium">
+              Descripción
+            </label>
+            <textarea
+              id="task-description"
+              name="description"
+              rows="3"
+              class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+            ></textarea>
+          </div>
+          <div>
+            <label for="task-status" class="mb-1 block text-sm font-medium">Estado</label>
+            <select
+              id="task-status"
+              name="status"
+              class="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+            >
+              <option value="todo">Pendiente</option>
+              <option value="doing">En Proceso</option>
+              <option value="done">Completado</option>
+            </select>
+          </div>
+          <div class="flex justify-end gap-2 pt-2">
+            <button
+              type="button"
+              id="task-modal-cancel"
+              class="rounded-lg px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+            >
+              Guardar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

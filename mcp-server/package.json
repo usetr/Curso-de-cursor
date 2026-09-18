@@ -1,0 +1,14 @@
+{
+  "name": "taskboard-knowledge-mcp",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Servidor MCP de demostración: base de conocimiento externa para TaskBoard",
+  "scripts": {
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.25.2",
+    "zod": "^3.25.76"
+  }
+}
